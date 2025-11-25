@@ -1,0 +1,31 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main #may change branch name if needed
+  pull_request: 
+    branches:
+      - main #may change branch name if needed
+
+jobs:
+  test: #may change name: Run Tests
+    runs-on: ubuntu-latest # may be windows-latest or macos-latest based on requirements
+
+    steps:
+    - name: Checkout code # Check out the repository code
+      uses: actions/checkout@v2
+
+    - name: Set up Python # Set up Python environment
+      uses: actions/setup-python@v2
+      with: 
+        python-version: '3.9' # specify the Python version
+
+    - name: Install dependencies  #on github actions you can install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest streamlit
+
+    - name: Run tests # Run the pytest (test cases) suite
+      run: |
+        pytest testcases.py
